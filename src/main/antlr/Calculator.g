@@ -29,7 +29,6 @@ IDENTIFIER: NON_DIGIT (LITERAL | NON_DIGIT)*;
 WHITESPACE: (' ' | '\t' | '\r') -> skip;
 
 UNDERSCORE: '_';
-COMMA: ',';
 ASSIGN: '=';
 
 LEFT_PARENTHESIS: '(';
