@@ -28,7 +28,7 @@ class Interpreter : CalculatorBaseVisitor<Int>() {
         return when (ctx.op.text) {
             "+" -> left + right
             "-" -> left - right
-            else -> throw InterpreterException("U")
+            else -> throw InterpreterException("A parsing error occurred while processing.")
         }
     }
 
@@ -40,7 +40,7 @@ class Interpreter : CalculatorBaseVisitor<Int>() {
             "*" -> left * right
             "/" -> if (right != 0) left / right else throw InterpreterException("Can't perform division by 0.")
             "%" -> if (right != 0) left % right else throw InterpreterException("Can't perform division by 0.")
-            else -> throw Exception()
+            else -> throw InterpreterException("A parsing error occurred while processing.")
         }
     }
 
@@ -50,7 +50,7 @@ class Interpreter : CalculatorBaseVisitor<Int>() {
 
     override fun visitIdentifierExpr(ctx: CalculatorParser.IdentifierExprContext): Int {
         val name = ctx.IDENTIFIER().text
-        return variables[name] ?: throw InterpreterException("Undefined variable $name.")
+        return variables[name] ?: throw InterpreterException("Undefined variable '$name'.")
     }
 
     override fun visitParenthesisedExpr(ctx: CalculatorParser.ParenthesisedExprContext): Int {
@@ -61,7 +61,7 @@ class Interpreter : CalculatorBaseVisitor<Int>() {
         return when (ctx.op.text) {
             "+" -> ctx.expression().accept(this)
             "-" -> -ctx.expression().accept(this)
-            else -> throw Exception()
+            else -> throw InterpreterException("A parsing error occurred while processing.")
 
         }
     }
