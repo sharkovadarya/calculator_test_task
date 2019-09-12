@@ -69,6 +69,16 @@ class InterpreterTest {
         doTest("x", 2)
     }
 
+    @Test
+    fun testLongNumbers() {
+        doTest("4611686018427387901 + 4611686018427387902", 9223372036854775803)
+    }
+
+    @Test(expected = InterpreterException::class)
+    fun testOverlyLongNumbers() {
+        doTest("9223372036854775808", null)
+    }
+
     // incorrect cases tests
 
     @Test(expected = InterpreterException::class)
@@ -92,7 +102,7 @@ class InterpreterTest {
         return parser.query()
     }
 
-    private fun doTest(s: String, result: Int?) {
+    private fun doTest(s: String, result: Long?) {
         assertEquals(result, interpreter.evaluate(getContextForString(s)))
     }
 }
