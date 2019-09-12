@@ -6,6 +6,22 @@ import ru.hse.spb.practice.calculator.interpreter.InterpreterException
 
 private const val EXIT_COMMAND = "exit"
 
+val calculatorExceptionListener = object : BaseErrorListener() {
+    override fun syntaxError(
+            recognizer: Recognizer<*, *>?,
+            offendingSymbol: Any?,
+            line: Int,
+            charPositionInLine: Int,
+            msg: String?,
+            e: RecognitionException?
+    ) {
+        super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e)
+        throw InterpreterException(
+                "Incorrect symbol at position $charPositionInLine.\n $msg"
+        )
+    }
+}
+
 fun main() {
     println("This integer numbers calculator supports: +, -, *, /, %, braces, variable declarations")
     println("Input a query or type '$EXIT_COMMAND' to terminate the program")
@@ -21,25 +37,10 @@ fun main() {
             val lexer = CalculatorLexer(CharStreams.fromString(input))
             val parser = CalculatorParser(BufferedTokenStream(lexer))
 
-            val exceptionListener = object : BaseErrorListener() {
-                override fun syntaxError(
-                    recognizer: Recognizer<*, *>?,
-                    offendingSymbol: Any?,
-                    line: Int,
-                    charPositionInLine: Int,
-                    msg: String?,
-                    e: RecognitionException?
-                ) {
-                    super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e)
-                    throw InterpreterException(
-                        "Incorrect symbol on line $line at position $charPositionInLine.\n $msg"
-                    )
-                }
-            }
             lexer.removeErrorListener(ConsoleErrorListener.INSTANCE)
             parser.removeErrorListener(ConsoleErrorListener.INSTANCE)
-            lexer.addErrorListener(exceptionListener)
-            parser.addErrorListener(exceptionListener)
+            lexer.addErrorListener(calculatorExceptionListener)
+            parser.addErrorListener(calculatorExceptionListener)
 
             try {
                 interpreter.evaluate(parser.query())?.let { println(it) }
