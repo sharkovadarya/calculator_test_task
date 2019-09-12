@@ -36,6 +36,8 @@ class ParserTest {
             parser.addErrorListener(calculatorExceptionListener)
             parser.removeErrorListener(ConsoleErrorListener.INSTANCE)
             parser.query()
+
+            // an exception must get thrown here; if not, fail
             fail()
         } catch (e: InterpreterException) {
             assertTrue(e.message!!.contains(errorMessage))

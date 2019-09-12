@@ -87,7 +87,7 @@ class InterpreterTest {
     }
 
     @Test(expected = InterpreterException::class)
-    fun testGetReminderDivisitionByZero() {
+    fun testGetReminderDivisionByZero() {
         doTest("15 % ((3 * 6 - 3) - (2 * 6 + 3))", null)
     }
 

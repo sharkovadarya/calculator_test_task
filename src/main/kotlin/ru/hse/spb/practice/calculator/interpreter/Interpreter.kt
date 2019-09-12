@@ -71,3 +71,5 @@ class Interpreter : CalculatorBaseVisitor<Long>() {
         }
     }
 }
+
+class InterpreterException(message: String) : Exception(message)

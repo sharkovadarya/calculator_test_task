@@ -23,16 +23,18 @@ val calculatorExceptionListener = object : BaseErrorListener() {
 }
 
 fun main() {
-    println("This integer numbers calculator supports: +, -, *, /, %, braces, variable declarations")
-    println("Input a query or type '$EXIT_COMMAND' to terminate the program")
+    println("This integer numbers calculator supports: +, -, *, /, %, braces, variable declarations.")
+    println("Input a query or type '$EXIT_COMMAND' to terminate the program.")
 
     val interpreter = Interpreter()
     while (true) {
         val input = readLine()
+
         if (input == EXIT_COMMAND) {
             println("Program terminated.")
             return
         }
+
         input?.let {
             val lexer = CalculatorLexer(CharStreams.fromString(input))
             val parser = CalculatorParser(BufferedTokenStream(lexer))

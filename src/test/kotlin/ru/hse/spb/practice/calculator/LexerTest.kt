@@ -27,6 +27,14 @@ class LexerTest {
         )
     }
 
+    @Test
+    fun testIncorrectVariableEvaluation() {
+        doTestForError(
+                "5 * \$x",
+                "$incorrectSymbolAtPosition 4.\n token recognition error at: '$'"
+        )
+    }
+
     private fun doTestForError(input: String, errorMessage: String) {
         try {
             val lexer = CalculatorLexer(CharStreams.fromString(input))
@@ -34,6 +42,8 @@ class LexerTest {
             lexer.removeErrorListener(ConsoleErrorListener.INSTANCE)
             val parser = CalculatorParser(BufferedTokenStream(lexer))
             parser.query()
+
+            // an exception must get thrown here; if not, fail
             fail()
         } catch (e: InterpreterException) {
             assertEquals(errorMessage, e.message)
