@@ -6,12 +6,12 @@ statement: expression | variableDeclaration;
 
 variableDeclaration: LET name = IDENTIFIER ASSIGN initialValue = expression;
 
-expression: left = expression op = MUL right = expression #MultiplicationExpr
-            | left = expression op = ADD right = expression #AdditionExpr
+expression: LEFT_PARENTHESIS expression RIGHT_PARENTHESIS #ParenthesisedExpr
             | op = ADD expression #UnaryExpr
+            | left = expression op = MUL right = expression #MultiplicationExpr
+            | left = expression op = ADD right = expression #AdditionExpr
             | IDENTIFIER #IdentifierExpr
-            | LITERAL #LiteralExpr
-            | LEFT_PARENTHESIS expression RIGHT_PARENTHESIS #ParenthesisedExpr;
+            | LITERAL #LiteralExpr;
 
 LET: 'let';
 

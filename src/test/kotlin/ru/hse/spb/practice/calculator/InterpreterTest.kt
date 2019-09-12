@@ -96,6 +96,13 @@ class InterpreterTest {
         doTest("undefined_variable / 15", null)
     }
 
+    @Test
+    fun testAdditionExpressionsWithNegativeNumbers() {
+        doTest("-30-40", -70)
+        doTest("(-30)-40", -70)
+        doTest("-30-(-40)", 10)
+    }
+
     private fun getContextForString(s: String): CalculatorParser.QueryContext {
         val lexer = CalculatorLexer(CharStreams.fromString(s))
         val parser = CalculatorParser(BufferedTokenStream(lexer))
